@@ -28,12 +28,14 @@ class BaseModel:
                     setattr(self, key, value)
 
             if kwargs.get("created_at", None) and type(self.created_at) is str:
-                self.created_at = datetime.strptime(kwargs["created_at"], time_format)
+                self.created_at = (datetime.strptime
+                                   (kwargs["created_at"], time_format))
             else:
                 self.created_at = datetime.utcnow()
 
             if kwargs.get("updated_at", None) and type(self.updated_at) is str:
-                self.created_at = datetime.strptime(kwargs["updated_at"], time_format)
+                self.created_at = (datetime.strptime
+                                   (kwargs["updated_at"], time_format))
             else:
                 self.updated_at = datetime.utcnow()
 

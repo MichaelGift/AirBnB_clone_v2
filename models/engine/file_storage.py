@@ -12,7 +12,7 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls is not None:
             search_result = {}
-            for key , value in FileStorage.__objects.items():
+            for key, value in FileStorage.__objects.items():
                 if cls == value.__class__ or cls == value.__class__.__name__:
                     search_result[key] = value
                 return search_result
