@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
+import models
 import uuid
 from datetime import datetime
 
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-
-import models
 
 time_format = "%Y-%m-%dT%H:%M:%S.%f"
 if models.storage_type == "db":

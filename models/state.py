@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
+import models
+
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
-import models
 from models.base_model import BaseModel, Base
 from models.city import City
 
@@ -19,7 +20,7 @@ class State(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """`Initializes a state object"""
-        super.__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     if models.storage_type != "db":
         @property

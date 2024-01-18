@@ -1,6 +1,7 @@
 """
 Houses the DBStorage class
 """
+import models
 from os import getenv
 
 from sqlalchemy import create_engine

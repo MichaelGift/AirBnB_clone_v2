@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
+
+import models
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
-import models
+
 from models.base_model import BaseModel, Base
 
 
