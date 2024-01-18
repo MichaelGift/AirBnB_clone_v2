@@ -3,11 +3,23 @@
 import uuid
 from datetime import datetime
 
+from sqlalchemy import Column, String, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+
+import models
+
 time_format = "%Y-%m-%dT%H:%M:%S.%f"
+
+Base = declarative_base()
 
 
 class BaseModel:
     """A base class for all hbnb models"""
+
+    id = Column(String(60), primary_key=True)
+    created_at = Column(DateTime, default=datetime.now())
+    updated_at = Column(DateTime, default=datetime.now())
+
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         if kwargs:
@@ -39,16 +51,24 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models import storage
-        self.updated_at = datetime.now()
-        storage.save()
+        self.updated_at = datetime.utcnow()
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """Convert instance into dict format"""
-        dictionary = {}
-        dictionary.update(self.__dict__)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        return dictionary
+        result = self.__dict__.copy()
+        if "created_at" in result:
+            result["created_at"] = result["created_at"].strftime(time_format)
+
+        if 'updated_at' in result:
+            result["updated_at"] = result["updated_at"].strftime(time_format)
+
+        result["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in result:
+            del result["_sa_instance_state"]
+        return result
+
+    def delete(self):
+        """Nukes self from storage"""
+        models.storage.delete(self)
