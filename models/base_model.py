@@ -9,16 +9,18 @@ from sqlalchemy.ext.declarative import declarative_base
 import models
 
 time_format = "%Y-%m-%dT%H:%M:%S.%f"
-
-Base = declarative_base()
+if models.storage_type == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel:
     """A base class for all hbnb models"""
-
-    id = Column(String(60), primary_key=True)
-    created_at = Column(DateTime, default=datetime.now())
-    updated_at = Column(DateTime, default=datetime.now())
+    if models.storage_type == "db":
+        id = Column(String(60), primary_key=True)
+        created_at = Column(DateTime, default=datetime.now())
+        updated_at = Column(DateTime, default=datetime.now())
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
