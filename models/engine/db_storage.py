@@ -1,7 +1,6 @@
 """
 Houses the DBStorage class
 """
-import models
 from os import getenv
 
 from sqlalchemy import create_engine
@@ -72,3 +71,7 @@ class DBStorage:
                            (bind=self.__engine, expire_on_commit=False))
         Session = scoped_session(session_factory)
         self.__session = Session
+
+    def close(self):
+        """call remove() method on the private session attribute"""
+        self.__session.remove()
